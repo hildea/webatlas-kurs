@@ -1,0 +1,13 @@
+body {
+    padding: 0;
+    margin: 0;
+}
+html, body, #map {
+    height: 90%;
+}
+
+p, h1 {
+    padding-left: 20px;
+    padding-right: 20px;
+}
+
