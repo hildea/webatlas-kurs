@@ -98,7 +98,7 @@ $(document).ready(function() {
     }).addTo(map);
 
     //legg til punktene til "layer control"
-    map.LayerControl.addOverlay(bomstasjoner, "Bomstasjoner i Trondheim");
+    map.LayerControl.addOverlay(bomstasjoner, "Alle bomstasjoner i Trondheim");
 
     
     
@@ -107,7 +107,7 @@ $(document).ready(function() {
     // --- Lager heatmap ---
     //start opp heatmap-motoren - vi bruker punktlisten vi lagde ovenfor og setter parametere
     var heatmapLayer = L.heatLayer(pointList, {
-        radius: 80
+        radius: 120
     });
     
     //Legg til heatmap til layer control
@@ -118,8 +118,8 @@ $(document).ready(function() {
 
     //start opp maskeringsmotoren og sett nødvendige parametere
     var coverageLayer = new L.TileLayer.MaskCanvas({
-        'opacity': 0.8,
-        radius: 500,
+        'opacity': 0.5,
+        radius: 1000,
         useAbsoluteRadius: true,
         'attribution': ''
     });
