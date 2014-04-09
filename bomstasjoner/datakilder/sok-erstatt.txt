@@ -1,5 +1,0 @@
-Søk-erstatt for json --> geojson
-
-{		"type": "Feature",		"properties": {
-
-},		"geometry": {			"type": "Point",			"coordinates": [,]		}    },
