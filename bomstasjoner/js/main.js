@@ -15,7 +15,7 @@ $(document).ready(function() {
 
     //Sett opp default stil til de nye sirkelmarkørene
     var geojsonMarkerOptions = {
-        radius: 8,
+        radius: 4,
         fillColor: "#ff7800",
         color: "#000",
         weight: 1,
@@ -41,15 +41,44 @@ $(document).ready(function() {
         */
         console.log(feature);
         console.log(feature.properties);
-        console.log(feature.properties.OBJTYPE);
-
+        console.log(feature.properties.takst_liten_bil);
+        
         var circleMarker;
         var latlng = L.latLng(feature.geometry.coordinates[1], feature.geometry.coordinates[0]);
+        
+        if(feature.properties.takst_liten_bil === "5.0") {
+            //endre på stilen - merk denne må resettes etterpå.
+            geojsonMarkerOptions.fillColor = "#00ff00";
+            geojsonMarkerOptions.radius = "8";
+            //lag ny sirkelmarkør
+            circleMarker = L.circleMarker(latlng, geojsonMarkerOptions);
+            //bind en popup til markøren
+            circleMarker.bindPopup(string);
+            //legg til takst1-laget
+            takst1.addLayer(circleMarker);
+        } else if (feature.properties.takst_liten_bil === "10.0") {
+            geojsonMarkerOptions.fillColor = "#ff0000";
+            geojsonMarkerOptions.radius = "8";
+            circleMarker = L.circleMarker(latlng, geojsonMarkerOptions);
+            
+            circleMarker.bindPopup(string);
 
+            takst2.addLayer(circleMarker);
+        } else {
+            //default, don't change the styling
+        }
         //reset default value
         geojsonMarkerOptions.fillColor = "#ff7800";
+        geojsonMarkerOptions.radius = "4";
     };
 
+    var takst1 = new L.LayerGroup().addTo(map);
+    map.LayerControl.addOverlay(takst1, "Takst liten bil = 5");
+
+    var takst2 = new L.LayerGroup().addTo(map);
+    map.LayerControl.addOverlay(takst2, "Takst liten bil = 10");
+
+    
     //Start "geoJson"-motoren til Leaflet. Den tar inn et JSON-objekt i en variabel. Denne har vi definert i JSON-filen i index.html
     var bomstasjoner = L.geoJson(bomstasjonerGeoJSON, {
         onEachFeature: visPopup,//vi refererer til funksjonen vi skal kalle. Husk at funksjonen også er et objekt
