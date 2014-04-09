@@ -1,0 +1,48 @@
+var bomstasjonerGeoJSON = {
+	"type": "FeatureCollection",
+	"crs": {
+		"type": "name",
+		"properties": {
+			"name": "urn:ogc:def:crs:OGC:1.3:CRS84"
+		}
+	},
+	"features": [
+	{
+		"type": "Feature",
+		"properties": {
+			"vegnr": "Ev6",
+			"autopass_beskrivelse": "AutoPASS + automatisk",
+			"navn": "Klett-E6",
+			"autopass": "Ja",
+			"takst_liten_bil": "10.0",
+			"kommunenr": "1601",
+			"long": "10.33143",
+			"lat": "63.32601",
+			"takst_stor_bil": "30.0"
+		},
+		"geometry": {
+			"type": "Point",
+			"coordinates": [10.33143,
+			63.32601]
+		}
+	},
+	{
+		"type": "Feature",
+		"properties": {
+			"vegnr": "Ev6",
+			"autopass_beskrivelse": "AutoPASS + automatisk",
+			"navn": "E6 Tonstad",
+			"autopass": "Ja",
+			"takst_liten_bil": "8.0",
+			"kommunenr": "1601",
+			"long": "10.37943",
+			"lat": "63.37183",
+			"takst_stor_bil": "24.0"
+		},
+		"geometry": {
+			"type": "Point",
+			"coordinates": [10.37943,
+			63.37183]
+		}
+	}]
+}
