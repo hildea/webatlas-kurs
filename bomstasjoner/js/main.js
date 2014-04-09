@@ -8,7 +8,7 @@ var map;
 
 $(document).ready(function() {
     //starter kartmotoren og putter det i div med id="map"
-    map = new WebatlasMap('map');
+    map = new WebatlasMap('map', {customer: 'WA_JS_V3_Coursework'});
 
     //endrer senterpunkt til koordinatene og setter zoomnivå
     map.setView(new L.LatLng(63.37183,10.37943), 11)
@@ -23,9 +23,16 @@ $(document).ready(function() {
         fillOpacity: 0.8
     };
 
+    //definerer en punktliste som vi trenger til heatmap mm
+    var pointList = [];
+
+    
     //definer en funksjon som vi skal kalle for hver feature som leses i L.geoJson()
     function visPopup(feature, layer) {
         
+        //legg til et punkt i punktliste, som trengs for heat map mm. Punktet er en liste med "lat, lng"
+        pointList.push([feature.geometry.coordinates[1], feature.geometry.coordinates[0]]);
+
         //midlertidig variabel for å bygge strengen til popup'en
         var string = "";
         //looper igjennom alle _egenskapene_ til JSON-objektet
@@ -70,6 +77,7 @@ $(document).ready(function() {
         //reset default value
         geojsonMarkerOptions.fillColor = "#ff7800";
         geojsonMarkerOptions.radius = "4";
+
     };
 
     var takst1 = new L.LayerGroup().addTo(map);
@@ -92,4 +100,43 @@ $(document).ready(function() {
     //legg til punktene til "layer control"
     map.LayerControl.addOverlay(bomstasjoner, "Bomstasjoner i Trondheim");
 
+    
+    
+    // ---------------- Fancy tilleggsfunksjoner fra eksempel 7
+    
+    // --- Lager heatmap ---
+    //start opp heatmap-motoren - vi bruker punktlisten vi lagde ovenfor og setter parametere
+    var heatmapLayer = L.heatLayer(pointList, {
+        radius: 80
+    });
+    
+    //Legg til heatmap til layer control
+    map.LayerControl.addOverlay(heatmapLayer, "Heatmap");
+
+    
+    // --- Dekning, maskeringsmotor
+
+    //start opp maskeringsmotoren og sett nødvendige parametere
+    var coverageLayer = new L.TileLayer.MaskCanvas({
+        'opacity': 0.8,
+        radius: 500,
+        useAbsoluteRadius: true,
+        'attribution': ''
+    });
+    
+    //knytt punktlisten vår til maskeringsmotoren
+    coverageLayer.setData(pointList);
+    //legg til maskering som eget lag i layer control
+    map.LayerControl.addOverlay(coverageLayer, "Dekning");
+
+    // --- Clustermotor
+    //start clustermotoren
+    var markers = new L.MarkerClusterGroup();
+
+    //legg til eiendommer-laget til clustermotoren og legg til kartet
+    markers.addLayer(dataLayer).addTo(map);
+    //legg også til som eget lag i layer control
+    map.LayerControl.addOverlay(markers, "Datalag (cluster)");    
+
+    
 });
